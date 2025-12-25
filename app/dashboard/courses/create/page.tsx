@@ -7,9 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft, PlusIcon, SparklesIcon } from "lucide-react";
+import { ArrowLeft, Loader2, PlusIcon, SparklesIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useTransition } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -41,8 +41,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Editor from "@/components/rich-text-editor/Editor";
+import Uploader from "@/components/file-uploader/Uploader";
+import { tryCatch } from "@/hooks/try-catch";
+import { CreateCourse } from "./actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const page = () => {
+const CourseCreationPage = () => {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<CourseSchemaType>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -59,9 +66,20 @@ const page = () => {
     },
   });
   function onSubmit(values: z.infer<typeof courseSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    startTransition(async () => {
+      const { data, error } = await tryCatch(CreateCourse(values));
+      if (error) {
+        toast.error("Something Went Wrong. Please try again");
+        return;
+      }
+      if (data.status === "success") {
+        toast.success("Course Created Successfully");
+        form.reset();
+        router.push("/dashboard/courses");
+      } else if (data.status === "error") {
+        toast.error(data.message);
+      }
+    });
   }
   return (
     <>
@@ -146,7 +164,7 @@ const page = () => {
                   <FormItem className="w-full">
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Editor />
+                      <Editor field={field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,7 +178,7 @@ const page = () => {
                   <FormItem className="w-full">
                     <FormLabel>Thumbnail Image</FormLabel>
                     <FormControl>
-                      <Input type="file" {...field} />
+                      <Uploader onChange={field.onChange} value={field.value} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -283,8 +301,16 @@ const page = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">
-                Create Course <PlusIcon />
+              <Button type="submit" disabled={isPending}>
+                {isPending ? (
+                  <>
+                    Creating...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  "Create Course"
+                )}{" "}
+                <PlusIcon />
               </Button>
             </form>
           </Form>
@@ -294,4 +320,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CourseCreationPage;

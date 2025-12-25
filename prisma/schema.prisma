@@ -100,8 +100,8 @@ model Course {
   updatedAt DateTime @updatedAt
 
   
-  User User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String?
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }
 
 enum CourseLevel {

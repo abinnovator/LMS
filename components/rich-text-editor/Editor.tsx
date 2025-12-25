@@ -17,7 +17,7 @@ import { ImageUploadNode } from "../tiptap-node/image-upload-node";
 import Highlight from "@tiptap/extension-highlight";
 import { TaskItem, TaskList } from "@tiptap/extension-list";
 
-const Editor = () => {
+const Editor = ({ field }: { field: any }) => {
   const editor = useEditor({
     immediatelyRender: false,
     editorProps: {
@@ -57,7 +57,11 @@ const Editor = () => {
         onError: (error) => console.error("Upload failed:", error),
       }),
     ],
-    content: "",
+    content: field.value ? JSON.parse(field.value) : "<p>Hello</p>",
+
+    onUpdate: ({ editor }) => {
+      field.onChange(JSON.stringify(editor.getJSON()));
+    },
   });
   React.useEffect(() => {
     if (editor) {

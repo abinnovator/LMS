@@ -25,7 +25,7 @@ export const courseSchema = z.object({
   description: z
     .string()
     .min(3, { message: "Description must be at least 3 characters long" })
-    .max(100, { message: "Description must be at most 100 characters long" }),
+    .max(1000, { message: "Description must be at most 100 characters long" }),
 
   fileKey: z.string().min(1, { message: "File is required" }),
 
@@ -34,7 +34,7 @@ export const courseSchema = z.object({
   duration: z.coerce
     .number()
     .min(1, { message: "Duration must be at least 1 hour" })
-    .max(500, { message: "Duration must be at most 500 hours" }),
+    .max(100, { message: "Duration must be at most 500 hours" }),
 
   level: z.enum(courseLevels),
 
@@ -43,14 +43,14 @@ export const courseSchema = z.object({
   smallDescrption: z
     .string()
     .min(3, { message: "Small description must be at least 3 characters long" })
-    .max(200, {
+    .max(500, {
       message: "Small description must be at most 200 characters long",
     }),
 
   slug: z
     .string()
     .min(3, { message: "Slug must be at least 3 characters long" })
-    .max(50, { message: "Slug must be at most 50 characters long" }),
+    .max(100, { message: "Slug must be at most 50 characters long" }),
 
   status: z.enum(courseStatus),
 });
