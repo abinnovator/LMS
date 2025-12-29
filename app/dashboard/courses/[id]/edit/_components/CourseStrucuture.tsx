@@ -17,6 +17,11 @@ import {
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CSS } from "@dnd-kit/utilities";
+
+// interface iAppProps {
+//   data:
+// }
+
 const CourseStrucuture = () => {
   const [items, setItems] = useState(["1", "2", "3"]);
 

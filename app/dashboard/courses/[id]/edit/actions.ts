@@ -5,7 +5,24 @@ import { tryCatch } from "@/hooks/try-catch";
 import { prisma } from "@/lib/prisma";
 import { ApiResponse } from "@/lib/types";
 import { CourseSchemaType, courseSchema } from "@/lib/zodSchemas";
-import { id } from "zod/v4/locales";
+import arcjet, { detectBot, fixedWindow, request } from "@arcjet/next";
+import { env } from "@/lib/env";
+
+const aj = arcjet({
+  key: env.ARCJET_KEY,
+  rules: [
+    detectBot({
+      mode: "LIVE",
+      allow: [],
+    }),
+    fixedWindow({
+      mode: "LIVE",
+      window: "1m",
+      max: 2,
+      characteristics: ["userId"],
+    }),
+  ],
+});
 
 export async function editCourse(
   data: CourseSchemaType,
@@ -13,6 +30,23 @@ export async function editCourse(
 ): Promise<ApiResponse> {
   const user = await RequireAdmin();
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      userId: user?.user.id as string,
+    });
+    if (decision.isDenied()) {
+      if (decision.reason.isRateLimit()) {
+        return {
+          status: "error",
+          message: "Too many requests. Please try again later",
+        };
+      } else {
+        return {
+          status: "error",
+          message: "Hmmmm. You look like a bot.",
+        };
+      }
+    }
     const result = courseSchema.safeParse(data);
     if (!result.success) {
       return {
