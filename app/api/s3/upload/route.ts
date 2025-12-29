@@ -5,6 +5,8 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { S3 } from "@/lib/S3Cient";
+import arcjet, { detectBot, fixedWindow } from "@arcjet/next";
+import { RequireAdmin } from "@/app/data/admin/require-admin";
 
 export const fileUploadSchema = z.object({
   fileName: z.string().min(1, { message: "Filename is required" }),
@@ -12,8 +14,35 @@ export const fileUploadSchema = z.object({
   size: z.number().min(1, { message: "Size is required" }),
   isImage: z.boolean(),
 });
+const aj = arcjet({
+  key: env.ARCJET_KEY,
+  rules: [
+    detectBot({
+      mode: "LIVE",
+      allow: [],
+    }),
+    fixedWindow({
+      mode: "LIVE",
+      window: "1m",
+      max: 2,
+      characteristics: ["userId"],
+    }),
+  ],
+});
+
 export async function POST(req: Request) {
+  const session = await RequireAdmin();
   try {
+    const decision = await aj.protect(req, {
+      userId: session?.user.id as string,
+    });
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        { error: "Sorry scammeer. Request Blocked. " },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const validation = fileUploadSchema.safeParse(body);
     if (!validation.success) {

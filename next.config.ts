@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "reactmastery.t3.storage.dev",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

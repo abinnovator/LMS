@@ -1,10 +1,8 @@
-import "server-only";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { env } from "./env";
-import { emailOTP } from "better-auth/plugins";
-import { EmailTemplate } from "@/components/sidebar/EmailTemplate";
+import { admin, emailOTP } from "better-auth/plugins";
 import { resend } from "./resend";
 
 export const auth = betterAuth({
@@ -21,6 +19,7 @@ export const auth = betterAuth({
     },
   },
   plugins: [
+    // OTP
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
         // if (type === "sign-in") {
@@ -37,5 +36,7 @@ export const auth = betterAuth({
         // }
       },
     }),
+    // Admin Settings
+    admin(),
   ],
 });
