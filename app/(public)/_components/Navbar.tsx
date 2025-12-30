@@ -11,6 +11,7 @@ import AvatarDropdown from "./Avatar";
 
 const Navbar = () => {
   const { data, isPending } = authClient.useSession();
+
   return (
     <nav className="flex flex-row justify-between items-center px-20 py-4 sticky top-0 backdrop-blur-lg bg-[#020013]/50">
       <div className="flex flex-row gap-4">
@@ -25,7 +26,13 @@ const Navbar = () => {
         {isPending ? (
           <Loader2 className="size-4 text-center justify-center animate-spin" />
         ) : data ? (
-          <AvatarDropdown userImage={data.user.image} />
+          <AvatarDropdown
+            userImage={
+              data.user.image
+                ? data.user.image
+                : `https://avatar.vercel.sh/vercel.svg?text=${data.user.name.charAt(0).toUpperCase()}`
+            }
+          />
         ) : (
           <>
             <Link

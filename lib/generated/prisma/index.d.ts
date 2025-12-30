@@ -8415,8 +8415,18 @@ export namespace Prisma {
 
   export type AggregateLesson = {
     _count: LessonCountAggregateOutputType | null
+    _avg: LessonAvgAggregateOutputType | null
+    _sum: LessonSumAggregateOutputType | null
     _min: LessonMinAggregateOutputType | null
     _max: LessonMaxAggregateOutputType | null
+  }
+
+  export type LessonAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type LessonSumAggregateOutputType = {
+    position: number | null
   }
 
   export type LessonMinAggregateOutputType = {
@@ -8425,6 +8435,7 @@ export namespace Prisma {
     description: string | null
     thumbnailKey: string | null
     videoKey: string | null
+    position: number | null
     createdAt: Date | null
     updatedAt: Date | null
     chapterId: string | null
@@ -8436,6 +8447,7 @@ export namespace Prisma {
     description: string | null
     thumbnailKey: string | null
     videoKey: string | null
+    position: number | null
     createdAt: Date | null
     updatedAt: Date | null
     chapterId: string | null
@@ -8447,6 +8459,7 @@ export namespace Prisma {
     description: number
     thumbnailKey: number
     videoKey: number
+    position: number
     createdAt: number
     updatedAt: number
     chapterId: number
@@ -8454,12 +8467,21 @@ export namespace Prisma {
   }
 
 
+  export type LessonAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type LessonSumAggregateInputType = {
+    position?: true
+  }
+
   export type LessonMinAggregateInputType = {
     id?: true
     title?: true
     description?: true
     thumbnailKey?: true
     videoKey?: true
+    position?: true
     createdAt?: true
     updatedAt?: true
     chapterId?: true
@@ -8471,6 +8493,7 @@ export namespace Prisma {
     description?: true
     thumbnailKey?: true
     videoKey?: true
+    position?: true
     createdAt?: true
     updatedAt?: true
     chapterId?: true
@@ -8482,6 +8505,7 @@ export namespace Prisma {
     description?: true
     thumbnailKey?: true
     videoKey?: true
+    position?: true
     createdAt?: true
     updatedAt?: true
     chapterId?: true
@@ -8526,6 +8550,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: LessonAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LessonSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: LessonMinAggregateInputType
@@ -8556,6 +8592,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: LessonCountAggregateInputType | true
+    _avg?: LessonAvgAggregateInputType
+    _sum?: LessonSumAggregateInputType
     _min?: LessonMinAggregateInputType
     _max?: LessonMaxAggregateInputType
   }
@@ -8566,10 +8604,13 @@ export namespace Prisma {
     description: string | null
     thumbnailKey: string | null
     videoKey: string | null
+    position: number
     createdAt: Date
     updatedAt: Date
     chapterId: string
     _count: LessonCountAggregateOutputType | null
+    _avg: LessonAvgAggregateOutputType | null
+    _sum: LessonSumAggregateOutputType | null
     _min: LessonMinAggregateOutputType | null
     _max: LessonMaxAggregateOutputType | null
   }
@@ -8594,6 +8635,7 @@ export namespace Prisma {
     description?: boolean
     thumbnailKey?: boolean
     videoKey?: boolean
+    position?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     chapterId?: boolean
@@ -8606,6 +8648,7 @@ export namespace Prisma {
     description?: boolean
     thumbnailKey?: boolean
     videoKey?: boolean
+    position?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     chapterId?: boolean
@@ -8618,6 +8661,7 @@ export namespace Prisma {
     description?: boolean
     thumbnailKey?: boolean
     videoKey?: boolean
+    position?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     chapterId?: boolean
@@ -8630,12 +8674,13 @@ export namespace Prisma {
     description?: boolean
     thumbnailKey?: boolean
     videoKey?: boolean
+    position?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     chapterId?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnailKey" | "videoKey" | "createdAt" | "updatedAt" | "chapterId", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnailKey" | "videoKey" | "position" | "createdAt" | "updatedAt" | "chapterId", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chapter?: boolean | ChapterDefaultArgs<ExtArgs>
   }
@@ -8657,6 +8702,7 @@ export namespace Prisma {
       description: string | null
       thumbnailKey: string | null
       videoKey: string | null
+      position: number
       createdAt: Date
       updatedAt: Date
       chapterId: string
@@ -9089,6 +9135,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Lesson", 'String'>
     readonly thumbnailKey: FieldRef<"Lesson", 'String'>
     readonly videoKey: FieldRef<"Lesson", 'String'>
+    readonly position: FieldRef<"Lesson", 'Int'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
     readonly updatedAt: FieldRef<"Lesson", 'DateTime'>
     readonly chapterId: FieldRef<"Lesson", 'String'>
@@ -9621,6 +9668,7 @@ export namespace Prisma {
     description: 'description',
     thumbnailKey: 'thumbnailKey',
     videoKey: 'videoKey',
+    position: 'position',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     chapterId: 'chapterId'
@@ -10249,6 +10297,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Lesson"> | string | null
     thumbnailKey?: StringNullableFilter<"Lesson"> | string | null
     videoKey?: StringNullableFilter<"Lesson"> | string | null
+    position?: IntFilter<"Lesson"> | number
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
     chapterId?: StringFilter<"Lesson"> | string
@@ -10261,6 +10310,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     thumbnailKey?: SortOrderInput | SortOrder
     videoKey?: SortOrderInput | SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
@@ -10276,6 +10326,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Lesson"> | string | null
     thumbnailKey?: StringNullableFilter<"Lesson"> | string | null
     videoKey?: StringNullableFilter<"Lesson"> | string | null
+    position?: IntFilter<"Lesson"> | number
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
     chapterId?: StringFilter<"Lesson"> | string
@@ -10288,12 +10339,15 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     thumbnailKey?: SortOrderInput | SortOrder
     videoKey?: SortOrderInput | SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
     _count?: LessonCountOrderByAggregateInput
+    _avg?: LessonAvgOrderByAggregateInput
     _max?: LessonMaxOrderByAggregateInput
     _min?: LessonMinOrderByAggregateInput
+    _sum?: LessonSumOrderByAggregateInput
   }
 
   export type LessonScalarWhereWithAggregatesInput = {
@@ -10305,6 +10359,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     thumbnailKey?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     videoKey?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
+    position?: IntWithAggregatesFilter<"Lesson"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
     chapterId?: StringWithAggregatesFilter<"Lesson"> | string
@@ -10871,6 +10926,7 @@ export namespace Prisma {
     description?: string | null
     thumbnailKey?: string | null
     videoKey?: string | null
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
     Chapter: ChapterCreateNestedOneWithoutLessonsInput
@@ -10882,6 +10938,7 @@ export namespace Prisma {
     description?: string | null
     thumbnailKey?: string | null
     videoKey?: string | null
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -10893,6 +10950,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailKey?: NullableStringFieldUpdateOperationsInput | string | null
     videoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Chapter?: ChapterUpdateOneRequiredWithoutLessonsNestedInput
@@ -10904,6 +10962,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailKey?: NullableStringFieldUpdateOperationsInput | string | null
     videoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -10915,6 +10974,7 @@ export namespace Prisma {
     description?: string | null
     thumbnailKey?: string | null
     videoKey?: string | null
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -10926,6 +10986,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailKey?: NullableStringFieldUpdateOperationsInput | string | null
     videoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10936,6 +10997,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailKey?: NullableStringFieldUpdateOperationsInput | string | null
     videoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -11469,9 +11531,14 @@ export namespace Prisma {
     description?: SortOrder
     thumbnailKey?: SortOrder
     videoKey?: SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
+  }
+
+  export type LessonAvgOrderByAggregateInput = {
+    position?: SortOrder
   }
 
   export type LessonMaxOrderByAggregateInput = {
@@ -11480,6 +11547,7 @@ export namespace Prisma {
     description?: SortOrder
     thumbnailKey?: SortOrder
     videoKey?: SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
@@ -11491,9 +11559,14 @@ export namespace Prisma {
     description?: SortOrder
     thumbnailKey?: SortOrder
     videoKey?: SortOrder
+    position?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
+  }
+
+  export type LessonSumOrderByAggregateInput = {
+    position?: SortOrder
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -12596,6 +12669,7 @@ export namespace Prisma {
     description?: string | null
     thumbnailKey?: string | null
     videoKey?: string | null
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12606,6 +12680,7 @@ export namespace Prisma {
     description?: string | null
     thumbnailKey?: string | null
     videoKey?: string | null
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12690,6 +12765,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Lesson"> | string | null
     thumbnailKey?: StringNullableFilter<"Lesson"> | string | null
     videoKey?: StringNullableFilter<"Lesson"> | string | null
+    position?: IntFilter<"Lesson"> | number
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
     chapterId?: StringFilter<"Lesson"> | string
@@ -12957,6 +13033,7 @@ export namespace Prisma {
     description?: string | null
     thumbnailKey?: string | null
     videoKey?: string | null
+    position: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12967,6 +13044,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailKey?: NullableStringFieldUpdateOperationsInput | string | null
     videoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12977,6 +13055,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailKey?: NullableStringFieldUpdateOperationsInput | string | null
     videoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12987,6 +13066,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailKey?: NullableStringFieldUpdateOperationsInput | string | null
     videoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
