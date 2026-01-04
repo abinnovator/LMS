@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface iAppProps {
   data: AdminCourseType;
@@ -76,7 +77,7 @@ const CourseStrucuture = ({ data }: iAppProps) => {
       transform,
       transition,
       isDragging,
-    } = useSortable({ id: id });
+    } = useSortable({ id: id, data: data });
 
     const style = {
       transform: CSS.Transform.toString(transform),
@@ -98,13 +99,86 @@ const CourseStrucuture = ({ data }: iAppProps) => {
   function handleDragEnd(event) {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
+    if (!over || active.id === over.id) return;
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
+    const activeId = active.id;
+    const overId = over.id;
+    const activeType = active.data.current.type as "chapter" | "lesson";
+    const overType = over.data.current?.type as "chapter" | "lesson";
+    const courseId = data.id;
+
+    if (activeType === "chapter") {
+      let targetChapterId = null;
+      if (overType === "chapter") {
+        targetChapterId = overId;
+      } else if (overType === "lesson") {
+        targetChapterId = over.data.current?.chapterId ?? null;
+      }
+
+      if (!targetChapterId) {
+        toast.error("Something went wrong");
+        return;
+      }
+      const oldIndex = items.findIndex((item) => item.id === activeId);
+      const newIndex = items.findIndex((item) => item.id === targetChapterId);
+      if (oldIndex === -1 || newIndex === -1) {
+        toast.error("Something went wrong");
+        return;
+      }
+      const reorderedItems = arrayMove(items, oldIndex, newIndex);
+      const updatedChapterForState = reorderedItems.map((chapter, index) => ({
+        ...chapter,
+        order: index + 1,
+      }));
+      const previousItems = [...items];
+      setItems(updatedChapterForState);
+    }
+    if (activeType === "lesson" && overType === "lesson") {
+      const chapterId = active.data.current?.chapterId;
+      const overChapterId = over.data.current?.chapterId;
+      if (!chapterId || chapterId !== overChapterId) {
+        toast.error(
+          "Lessons move between the same chapter. They cannot be put in the parent space or in another chapter"
+        );
+        return;
+      }
+      const chapterIndex = items.findIndex(
+        (chapter) => chapter.id === chapterId
+      );
+      if (chapterIndex === -1) {
+        toast.error(
+          "Could not find the chapter the lession is being moved to."
+        );
+        return;
+      }
+      const chapterToUpdate = items[chapterIndex];
+      const oldLessonIndex = chapterToUpdate.lessons.findIndex(
+        (lesson) => lesson.id === activeId
+      );
+      const newLessonIndex = chapterToUpdate.lessons.findIndex(
+        (lesson) => lesson.id === overId
+      );
+      if (oldLessonIndex === -1 || newLessonIndex === -1) {
+        toast.error("Something went wrong");
+        return;
+      }
+      const reorderedLessons = arrayMove(
+        chapterToUpdate.lessons,
+        oldLessonIndex,
+        newLessonIndex
+      );
+      const updatedLessonForState = reorderedLessons.map((lesson, index) => ({
+        ...lesson,
+        order: index + 1,
+      }));
+      const newItems = [...items];
+      newItems[chapterIndex] = {
+        ...chapterToUpdate,
+        lessons: updatedLessonForState,
+      };
+
+      const previousItems = [...items];
+      setItems(newItems);
     }
   }
   function toggleChapter(chapterId: string) {
@@ -132,7 +206,10 @@ const CourseStrucuture = ({ data }: iAppProps) => {
           <CardTitle>Chapters</CardTitle>
         </CardHeader>
         <CardContent>
-          <SortableContext strategy={verticalListSortingStrategy} items={items}>
+          <SortableContext
+            strategy={verticalListSortingStrategy}
+            items={items.map((item) => item.id)}
+          >
             {items.map((item) => (
               <SortableItem
                 key={item.id}
