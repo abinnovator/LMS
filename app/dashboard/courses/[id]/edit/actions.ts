@@ -7,6 +7,7 @@ import { ApiResponse } from "@/lib/types";
 import { CourseSchemaType, courseSchema } from "@/lib/zodSchemas";
 import arcjet, { detectBot, fixedWindow, request } from "@arcjet/next";
 import { env } from "@/lib/env";
+import { revalidatePath } from "next/cache";
 
 const aj = arcjet({
   key: env.ARCJET_KEY,
@@ -64,5 +65,67 @@ export async function editCourse(
     return { status: "success", message: "Course updated successfully" };
   } catch (error) {
     return { status: "error", message: "Something went wrong" };
+  }
+}
+
+export async function reorderLessons(
+  chapterId: string,
+  lessons: { id: string; position: number }[],
+  courseId: string
+): Promise<ApiResponse> {
+  try {
+    if (!lessons || lessons.length === 0 || !chapterId || !courseId) {
+      return { status: "error", message: "No lessons provided for reordering" };
+    }
+    const updates = lessons.map((lesson) =>
+      prisma.lesson.update({
+        where: {
+          id: lesson.id,
+
+          chapterId: chapterId,
+        },
+        data: {
+          position: lesson.position,
+        },
+      })
+    );
+    await prisma.$transaction(updates);
+    revalidatePath(`/dashboard/courses/${courseId}/edit`);
+    return { status: "success", message: "Lessons reordered successfully" };
+  } catch (error) {
+    return { status: "error", message: "Something went wrong" };
+  }
+}
+export async function reorderChapter(
+  courseId: string,
+  chapters: { id: string; position: number }[]
+): Promise<ApiResponse> {
+  await RequireAdmin();
+  try {
+    if (!chapters || chapters.length === 0 || !courseId) {
+      return {
+        status: "error",
+        message: "No chapters provided for reordering",
+      };
+    }
+    const updates = chapters.map((chapter) =>
+      prisma.chapter.update({
+        where: {
+          id: chapter.id,
+          courseId: courseId,
+        },
+        data: {
+          position: chapter.position,
+        },
+      })
+    );
+    await prisma.$transaction(updates);
+    revalidatePath(`/dashboard/courses/${courseId}/edit`);
+    return { status: "success", message: "Chapters reordered successfully" };
+  } catch {
+    return {
+      status: "error",
+      message: "Failed to reorder chapters",
+    };
   }
 }

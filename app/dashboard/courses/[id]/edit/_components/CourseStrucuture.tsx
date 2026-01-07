@@ -7,6 +7,7 @@ import {
 } from "@dnd-kit/sortable";
 import {
   DndContext,
+  DragEndEvent,
   DraggableSyntheticListeners,
   KeyboardSensor,
   MouseSensor,
@@ -15,7 +16,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CSS } from "@dnd-kit/utilities";
 import { AdminCourseType } from "@/app/data/admin/admin-get-course";
@@ -39,6 +40,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { toast } from "sonner";
+import { reorderChapter, reorderLessons } from "../actions";
 
 interface iAppProps {
   data: AdminCourseType;
@@ -68,6 +70,24 @@ const CourseStrucuture = ({ data }: iAppProps) => {
       })),
     })) || [];
   const [items, setItems] = useState(initialItems);
+  useEffect(() => {
+    setItems((prevItems) => {
+      const updatedItems =
+        data.chapter.map((chapter) => ({
+          id: chapter.id,
+          title: chapter.title,
+          order: chapter.position,
+          isopen:
+            prevItems.find((item) => item.id === chapter.id)?.isopen ?? true, //deault chapters to open
+          lessons: chapter.lessons.map((lesson) => ({
+            id: lesson.id,
+            title: lesson.title,
+            order: lesson.position,
+          })),
+        })) || [];
+      return updatedItems;
+    });
+  }, [data]);
 
   function SortableItem({ children, id, className, data }: SortableItemProps) {
     const {
@@ -96,14 +116,14 @@ const CourseStrucuture = ({ data }: iAppProps) => {
     );
   }
 
-  function handleDragEnd(event) {
+  function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
     if (!over || active.id === over.id) return;
 
     const activeId = active.id;
     const overId = over.id;
-    const activeType = active.data.current.type as "chapter" | "lesson";
+    const activeType = active.data.current?.type as "chapter" | "lesson";
     const overType = over.data.current?.type as "chapter" | "lesson";
     const courseId = data.id;
 
@@ -132,6 +152,28 @@ const CourseStrucuture = ({ data }: iAppProps) => {
       }));
       const previousItems = [...items];
       setItems(updatedChapterForState);
+      if (courseId) {
+        const chaptersToUpdate = updatedChapterForState.map((chapter) => ({
+          id: chapter.id,
+          position: chapter.order,
+        }));
+        const reorderChapterPromise = () =>
+          reorderChapter(courseId, chaptersToUpdate);
+        toast.promise(reorderChapterPromise(), {
+          loading: "Reordering chapters...",
+          success: (result) => {
+            if (result.status === "success") {
+              return result.message;
+            }
+            throw new Error(result.message);
+          },
+          error: () => {
+            setItems(previousItems);
+            return "Failed to order chapters";
+          },
+        });
+      }
+      return;
     }
     if (activeType === "lesson" && overType === "lesson") {
       const chapterId = active.data.current?.chapterId;
@@ -179,6 +221,29 @@ const CourseStrucuture = ({ data }: iAppProps) => {
 
       const previousItems = [...items];
       setItems(newItems);
+
+      if (courseId) {
+        const lessonsToupdate = updatedLessonForState.map((lesson) => ({
+          id: lesson.id,
+          position: lesson.order,
+        }));
+        const reorderlessonsPromise = () =>
+          reorderLessons(chapterId, lessonsToupdate, courseId);
+        toast.promise(reorderlessonsPromise(), {
+          loading: "Reordering lessons...",
+          success: (result) => {
+            if (result.status === "success") {
+              return result.message;
+            }
+            throw new Error(result.message);
+          },
+          error: () => {
+            setItems(previousItems);
+            return "Failed to order lessons";
+          },
+        });
+      }
+      return;
     }
   }
   function toggleChapter(chapterId: string) {
@@ -205,7 +270,7 @@ const CourseStrucuture = ({ data }: iAppProps) => {
         <CardHeader className="flex flex-row items-center justify-between border-b border-border">
           <CardTitle>Chapters</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-8">
           <SortableContext
             strategy={verticalListSortingStrategy}
             items={items.map((item) => item.id)}
