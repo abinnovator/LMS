@@ -55,4 +55,28 @@ export const courseSchema = z.object({
   status: z.enum(courseStatus),
 });
 
+export const chapterSchema = z.object({
+  title: z.string().min(3),
+  courseId: z.uuid(),
+});
+
+export const lessonSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "Name must be at least 3 characters long" }),
+  courseId: z.uuid(),
+  chapterId: z.uuid(),
+  description: z
+    .string()
+    .min(3, { message: "Description must be at least 3 characters long" })
+    .optional(),
+  thumbnailKey: z
+    .string()
+    .min(3, { message: "Thumbnail is required" })
+    .optional(),
+  videoKey: z.string().min(3, { message: "Videokey is required" }).optional(),
+});
+
 export type CourseSchemaType = z.infer<typeof courseSchema>;
+export type ChapterSchemaType = z.infer<typeof chapterSchema>;
+export type LessonSchemaType = z.infer<typeof lessonSchema>;
