@@ -1,6 +1,6 @@
 "use client";
 import { AdminLessonType } from "@/app/data/admin/admin-get-lesson";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -32,6 +32,10 @@ import { useRouter } from "next/navigation";
 import React, { startTransition, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import Editor from "@/components/rich-text-editor/Editor";
+import Uploader from "@/components/file-uploader/Uploader";
+import { updateLesson } from "../actions";
+import { tryCatch } from "@/hooks/try-catch";
+import { toast } from "sonner";
 
 interface iAppProps {
   data: AdminLessonType;
@@ -44,15 +48,31 @@ const LessonForm = ({ data, chapterId, courseId }: iAppProps) => {
   const form = useForm<LessonSchemaType>({
     resolver: zodResolver(lessonSchema),
     defaultValues: {
-      id: data?.id,
+      courseId: courseId,
       name: data?.title,
       chapterId: chapterId,
-      courseId: courseId,
       description: data?.description || undefined,
       thumbnailKey: data?.thumbnailKey || undefined,
       videoKey: data?.videoKey || undefined,
     },
   });
+
+  async function onSubmit(values: LessonSchemaType) {
+    startTransition(async () => {
+      const { data: result, error } = await tryCatch(
+        updateLesson(values, data.id)
+      );
+      if (error) {
+        toast.error("Something Went Wrong. Please try again");
+        return;
+      }
+      if (result.status === "success") {
+        toast.success("Lesson Updated Successfully");
+      } else if (result.status === "error") {
+        toast.error(result.message);
+      }
+    });
+  }
   return (
     <div>
       {/* Back to course button */}
@@ -70,7 +90,7 @@ const LessonForm = ({ data, chapterId, courseId }: iAppProps) => {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form>
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
               {/* title */}
               <FormField
                 control={form.control}
@@ -90,8 +110,8 @@ const LessonForm = ({ data, chapterId, courseId }: iAppProps) => {
                 control={form.control}
                 name="description"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Lesson Description</FormLabel>
+                  <FormItem className="w-full">
+                    <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Editor field={field} />
                     </FormControl>
@@ -99,6 +119,45 @@ const LessonForm = ({ data, chapterId, courseId }: iAppProps) => {
                   </FormItem>
                 )}
               />
+              {/* Thumbnail */}
+              <FormField
+                control={form.control}
+                name="thumbnailKey"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Thumbnail</FormLabel>
+                    <FormControl>
+                      <Uploader
+                        onChange={field.onChange}
+                        value={field.value}
+                        fileTypeAccepted="image"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Video */}
+              <FormField
+                control={form.control}
+                name="videoKey"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Video</FormLabel>
+                    <FormControl>
+                      <Uploader
+                        onChange={field.onChange}
+                        value={field.value}
+                        fileTypeAccepted="video"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button disabled={isPending} type="submit">
+                {isPending ? "Saving..." : "Save Lesson"}
+              </Button>
             </form>
           </Form>
         </CardContent>

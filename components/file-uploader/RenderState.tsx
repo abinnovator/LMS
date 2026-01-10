@@ -49,18 +49,26 @@ export const SuccessState = ({
   previewUrl,
   isDeleting,
   handleDelete,
+  fileType,
 }: {
   previewUrl: string;
   isDeleting: boolean;
   handleDelete: () => void;
+  fileType: "image" | "video";
 }) => {
   return (
-    <div className="">
-      <Image src={previewUrl} alt="" fill className="object-contain p-2" />
+    <div className="relative group w-full h-full flex items-center justify-center">
+      {fileType === "image" ? (
+        <Image src={previewUrl} alt="" fill className="object-contain p-2" />
+      ) : (
+        <video src={previewUrl} className="rounded-md w-full h-full" controls />
+      )}
       <Button
         variant="destructive"
         size="icon"
-        className={cn("absolute top-4 right-4 cursor-pointer")}
+        className={cn(
+          "absolute top-4 right-4 cursor-pointer opacity-0 group-hover:opacity-100"
+        )}
         onClick={handleDelete}
         disabled={isDeleting}
         type="button"

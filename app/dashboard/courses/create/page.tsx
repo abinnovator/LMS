@@ -178,7 +178,11 @@ const CourseCreationPage = () => {
                   <FormItem className="w-full">
                     <FormLabel>Thumbnail Image</FormLabel>
                     <FormControl>
-                      <Uploader onChange={field.onChange} value={field.value} />
+                      <Uploader
+                        onChange={field.onChange}
+                        value={field.value}
+                        fileTypeAccepted="image"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

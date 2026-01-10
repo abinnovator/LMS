@@ -57,20 +57,21 @@ const Editor = ({ field }: { field: any }) => {
         onError: (error) => console.error("Upload failed:", error),
       }),
     ],
-    content: field.value ? JSON.parse(field.value) : "<p>Hello</p>",
+    content: field.value
+      ? (() => {
+          try {
+            return JSON.parse(field.value);
+          } catch {
+            return field.value;
+          }
+        })()
+      : "<p>Hello</p>",
 
     onUpdate: ({ editor }) => {
       field.onChange(JSON.stringify(editor.getJSON()));
     },
   });
-  React.useEffect(() => {
-    if (editor) {
-      console.log("Editor initialized:", editor);
-      console.log("Editor editable:", editor.isEditable);
-      console.log("Can toggle bold:", editor.can().toggleBold());
-      console.log("Editor commands:", editor.commands);
-    }
-  }, [editor]);
+
   return (
     <div className="w-full border border-input rounded-lg overflow-hidden dark:bg-input/30">
       <MenuBar editor={editor} />
