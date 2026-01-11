@@ -11,6 +11,7 @@ import AvatarDropdown from "./Avatar";
 
 const Navbar = () => {
   const { data, isPending } = authClient.useSession();
+  console.log(data);
 
   return (
     <nav className="flex flex-row justify-between items-center px-20 py-4 sticky top-0 backdrop-blur-lg bg-[#020013]/50">
@@ -20,7 +21,9 @@ const Navbar = () => {
       <nav className="flex flex-row gap-4 justify-center  text-center items-center">
         <Link href="/">Home</Link>
         <Link href="/courses">Courses</Link>
-        <Link href="/dashboard">Dashboard</Link>
+        {data?.user.role === "admin" && (
+          <Link href="/dashboard">Dashboard</Link>
+        )}
       </nav>
       <div className="flex flex-row gap-4">
         {isPending ? (
