@@ -19,7 +19,7 @@ import { auth } from "@/lib/auth";
 
 // export const config = {
 //   runtime: "nodejs", // Required for auth.api calls
-//   matcher: ["/dashboard"], // Specify the routes the middleware applies to
+//   matcher: ["/admin"], // Specify the routes the middleware applies to
 // };
 
 import arcjet, { createMiddleware, detectBot } from "@arcjet/next";
@@ -53,6 +53,7 @@ const aj = arcjet({
       // Block all bots except the following
       allow: [
         "CATEGORY:SEARCH_ENGINE", // Google, Bing, etc
+        "STRIPE_WEBHOOK",
         // Uncomment to allow these other common bot categories
         // See the full list at https://arcjet.com/bot-list
         //"CATEGORY:MONITOR", // Uptime monitoring services
@@ -63,7 +64,7 @@ const aj = arcjet({
 });
 // Pass any existing middleware with the optional existingMiddleware prop
 export default createMiddleware(aj, async (request: NextRequest) => {
-  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+  if (request.nextUrl.pathname.startsWith("/admin")) {
     return middleware(request);
   }
   return NextResponse.next();

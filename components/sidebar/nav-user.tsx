@@ -77,7 +77,9 @@ export function NavUser({ user }: NavUserProps) {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={avatarSrc ?? `https://avatar.vercel.sh/${displayEmail}`}
+                    src={
+                      avatarSrc ?? `https://avatar.vercel.sh/${displayEmail}`
+                    }
                     alt={displayName}
                   />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
@@ -100,13 +102,13 @@ export function NavUser({ user }: NavUserProps) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard">
+                <Link href="/admin">
                   <IconDashboard />
                   Dashboard
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/courses">
+                <Link href="/admin/courses">
                   <Tv2 />
                   Courses
                 </Link>

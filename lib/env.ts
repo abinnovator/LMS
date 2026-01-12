@@ -16,6 +16,8 @@ export const env = createEnv({
     // AWS_BUCKET_NAME: z.string(),
     AWS_ENDPOINT_URL_S3: z.string(),
     AWS_ENDPOINT_URL_IAM: z.string(),
+    STRIPE_SECRET_KEY: z.string(),
+    STRIPE_WEBHOOK_SECRET: z.string(),
   },
   client: {
     NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES: z.string(),

@@ -1,7 +1,7 @@
 import { getCourse } from "@/app/data/course/get-course";
 import { RenderDescription } from "@/components/rich-text-editor/RenderDescription";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Collapsible,
@@ -19,11 +19,34 @@ import {
 import { CheckIcon, ChevronDownIcon, School } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { enrollInCourse } from "./actions";
+import { CheckIfCourseBoughtBy } from "@/app/data/user/user-is-enrolled";
+import Link from "next/link";
+import EnrollementButton from "./_components/EnrollementButton";
 type Params = Promise<{ slug: string }>;
 
 const CoursePage = async ({ params }: { params: Params }) => {
   const { slug } = await params;
-  const course = await getCourse(slug);
+  console.log("Fetching course for slug:", slug);
+  let course;
+  try {
+    course = await getCourse(slug);
+    console.log("Course fetched successfully:", course?.id);
+  } catch (error) {
+    console.error("Error fetching course:", error);
+    throw error;
+  }
+
+  console.log("Checking enrollment for course:", course.id);
+  let isEnrolled = false;
+  try {
+    isEnrolled = await CheckIfCourseBoughtBy(course.id);
+    console.log("Enrollment checked:", isEnrolled);
+  } catch (error) {
+    console.error("Error checking enrollment:", error);
+    // Don't crash the page if enrollment check fails, just assume false?
+    // Or throw if critical. Let's log and let it bubble for now to match 500 behavior.
+  }
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5">
       <div className="order-1 lg:col-span-2">
@@ -241,7 +264,21 @@ const CoursePage = async ({ params }: { params: Params }) => {
                   </li>
                 </ul>
               </div>
-              <Button className="w-full">Enroll now</Button>
+              {/* <Button className="w-full">Enroll now</Button> */}
+              {isEnrolled ? (
+                <Link
+                  href="/admin"
+                  className={buttonVariants({
+                    variant: "default",
+                    className: "w-full",
+                  })}
+                >
+                  Go to dashboard
+                </Link>
+              ) : (
+                <EnrollementButton courseId={course.id} />
+              )}
+
               <p className="mt-3 text-center text-xs text-muted-foreground">
                 30 day money back guarantee
               </p>
