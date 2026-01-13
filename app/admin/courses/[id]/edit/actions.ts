@@ -97,7 +97,7 @@ export async function reorderLessons(
       })
     );
     await prisma.$transaction(updates);
-    revalidatePath(`/dashboard/courses/${courseId}/edit`);
+    revalidatePath(`/admin/courses/${courseId}/edit`);
     return { status: "success", message: "Lessons reordered successfully" };
   } catch (error) {
     return { status: "error", message: "Something went wrong" };
@@ -127,7 +127,7 @@ export async function reorderChapter(
       })
     );
     await prisma.$transaction(updates);
-    revalidatePath(`/dashboard/courses/${courseId}/edit`);
+    revalidatePath(`/admin/courses/${courseId}/edit`);
     return { status: "success", message: "Chapters reordered successfully" };
   } catch {
     return {
@@ -160,7 +160,7 @@ export async function createChapter(
       });
     });
 
-    revalidatePath(`/dashboard/courses/${result.data.courseId}/edit`);
+    revalidatePath(`/admin/courses/${result.data.courseId}/edit`);
     return { status: "success", message: "Chapter created successfully" };
   } catch (error) {
     console.error(error);
@@ -195,7 +195,7 @@ export async function createLesson(
       });
     });
 
-    revalidatePath(`/dashboard/courses/${result.data.courseId}/edit`);
+    revalidatePath(`/admin/courses/${result.data.courseId}/edit`);
     return { status: "success", message: "Lesson created successfully" };
   } catch (error) {
     console.error(error);
@@ -239,7 +239,7 @@ export async function deleteLesson(
       ...updates,
       prisma.lesson.delete({ where: { id: lessonId, chapterId: chapterId } }),
     ]);
-    revalidatePath(`/dashboard/courses/${courseId}/edit`);
+    revalidatePath(`/admin/courses/${courseId}/edit`);
 
     return { status: "success", message: "Lesson deleted successfully" };
   } catch {
@@ -294,7 +294,7 @@ export async function deleteChapter(
       }),
     ]);
 
-    revalidatePath(`/dashboard/courses/${courseId}/edit`);
+    revalidatePath(`/admin/courses/${courseId}/edit`);
 
     return { status: "success", message: "Chapter deleted successfully" };
   } catch (error) {

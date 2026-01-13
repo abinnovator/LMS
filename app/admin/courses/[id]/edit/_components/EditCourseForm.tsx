@@ -74,7 +74,7 @@ const EditCourseForm = ({ data }: iAppProps) => {
       if (data.status === "success") {
         toast.success("Course Created Successfully");
         form.reset();
-        router.push("/dashboard/courses");
+        router.push("/admin/courses");
       } else if (data.status === "error") {
         toast.error(data.message);
       }

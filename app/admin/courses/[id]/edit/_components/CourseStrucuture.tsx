@@ -345,7 +345,7 @@ const CourseStrucuture = ({ data }: iAppProps) => {
                                       </Button>
                                       <FileText className="size-4" />
                                       <Link
-                                        href={`/dashboard/courses/${data.id}/${item.id}/${lesson.id}`}
+                                        href={`/admin/courses/${data.id}/${item.id}/${lesson.id}`}
                                       >
                                         {lesson.title}
                                       </Link>

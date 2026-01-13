@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { courseSchema, CourseSchemaType } from "@/lib/zodSchemas";
 import arcjet, { detectBot, fixedWindow, request } from "@arcjet/next";
 import { env } from "@/lib/env";
+import { stripe } from "@/lib/stripe";
 
 const aj = arcjet({
   key: env.ARCJET_KEY,
@@ -50,8 +51,20 @@ export async function CreateCourse(data: CourseSchemaType) {
         message: "Invalid form data",
       };
     }
+    const product = await stripe.products.create({
+      name: validation.data.title,
+      description: JSON.parse(validation.data.description),
+      default_price_data: {
+        currency: "usd",
+        unit_amount: validation.data.price * 100,
+      },
+    });
     await prisma.course.create({
-      data: { ...validation.data, userId: session?.user?.id as string },
+      data: {
+        ...validation.data,
+        userId: session?.user?.id as string,
+        stripePriceId: product.default_price as string,
+      },
     });
     return { status: "success", message: "Course created successfully" };
   } catch (e) {

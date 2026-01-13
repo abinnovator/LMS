@@ -46,7 +46,7 @@ const AdminCourseCard = ({ course }: iAppProps) => {
           <DropdownMenuContent align="end" className="w-48">
             {/* Edit */}
             <DropdownMenuItem asChild>
-              <Link href={`/dashboard/courses/${course.id}/edit`}>
+              <Link href={`/admin/courses/${course.id}/edit`}>
                 <PencilIcon className="size-4 mr-2" /> Edit Course
               </Link>
             </DropdownMenuItem>
@@ -59,7 +59,7 @@ const AdminCourseCard = ({ course }: iAppProps) => {
             <DropdownMenuSeparator />
             {/* Delete */}
             <DropdownMenuItem asChild>
-              <Link href={`/dashboard/courses/${course.id}/delete`}>
+              <Link href={`/admin/courses/${course.id}/delete`}>
                 <Trash2 className="size-4 mr-2 text-destructive" /> Delete
                 Course
               </Link>
@@ -79,7 +79,7 @@ const AdminCourseCard = ({ course }: iAppProps) => {
 
       <CardContent className="p-4">
         <Link
-          href={`/dashboard/courses/${course.id}`}
+          href={`/admin/courses/${course.id}`}
           className="font-medium text-lg line-clamp-2 hover:underline group-hover:text-primary transition-colors"
         >
           {course.title}
@@ -102,7 +102,7 @@ const AdminCourseCard = ({ course }: iAppProps) => {
         </div>
         {/* Edit Course Button */}
         <Link
-          href={`/dashboard/courses/${course.id}/edit`}
+          href={`/admin/courses/${course.id}/edit`}
           className={cn(
             "flex items-center gap-x-2 w-full",
             buttonVariants({ variant: "default" })

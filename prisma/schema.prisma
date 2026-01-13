@@ -113,6 +113,7 @@ model Course {
 
   chapter Chapter[]
   enrollment Enrollment[]
+  stripePriceId String @unique
 }
 
 enum CourseLevel {

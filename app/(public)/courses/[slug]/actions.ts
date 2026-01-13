@@ -43,6 +43,7 @@ export async function enrollInCourse(
         title: true,
         slug: true,
         price: true,
+        stripePriceId: true,
       },
     });
     if (!course) {
@@ -131,7 +132,7 @@ export async function enrollInCourse(
       }
       const checkoutSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,
-        line_items: [{ price: "price_1SokirGdSYGmOGY10IZFOoGn", quantity: 1 }],
+        line_items: [{ price: course.stripePriceId, quantity: 1 }],
         mode: "payment",
         success_url: `${env.BETTER_AUTH_URL}/payment/success`,
         cancel_url: `${env.BETTER_AUTH_URL}/courses/${course.slug}`,

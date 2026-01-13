@@ -78,7 +78,7 @@ const CourseCreationPage = () => {
         toast.success("Course Created Successfully");
         triggerConfetti();
         form.reset();
-        router.push("/dashboard/courses");
+        router.push("/admin/courses");
       } else if (data.status === "error") {
         toast.error(data.message);
       }
@@ -88,7 +88,7 @@ const CourseCreationPage = () => {
     <>
       <div className="flex flex-row gap-4">
         <Link
-          href="/dashboard/courses"
+          href="/admin/courses"
           className={buttonVariants({ variant: "outline" })}
         >
           <ArrowLeft className="size-4" />

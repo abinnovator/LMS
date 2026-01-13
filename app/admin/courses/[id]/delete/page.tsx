@@ -28,7 +28,7 @@ const DeleteCoursePage = () => {
       }
       if (data.status === "success") {
         toast.success("Course Deleted Successfully");
-        router.push("/dashboard/courses");
+        router.push("/admin/courses");
       } else if (data.status === "error") {
         toast.error(data.message);
       }
@@ -44,7 +44,7 @@ const DeleteCoursePage = () => {
         </CardHeader>
         <CardContent className="space-x-4 ">
           <Link
-            href={"/dashboard/courses"}
+            href={"/admin/courses"}
             className={buttonVariants({ variant: "outline" })}
           >
             Cancel

@@ -77,7 +77,7 @@ const LessonForm = ({ data, chapterId, courseId }: iAppProps) => {
     <div>
       {/* Back to course button */}
       <Link
-        href={`/dashboard/courses/${courseId}/edit`}
+        href={`/admin/courses/${courseId}/edit`}
         className={buttonVariants({ variant: "outline", className: "mb-6" })}
       >
         <ArrowLeft className="size-4" />

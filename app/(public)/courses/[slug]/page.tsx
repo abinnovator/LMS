@@ -19,7 +19,6 @@ import {
 import { CheckIcon, ChevronDownIcon, School } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import { enrollInCourse } from "./actions";
 import { CheckIfCourseBoughtBy } from "@/app/data/user/user-is-enrolled";
 import Link from "next/link";
 import EnrollementButton from "./_components/EnrollementButton";

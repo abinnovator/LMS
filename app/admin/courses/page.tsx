@@ -12,7 +12,7 @@ const page = async () => {
     <>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold ">Your Courses</h1>
-        <Link href="/dashboard/courses/create" className={buttonVariants()}>
+        <Link href="/admin/courses/create" className={buttonVariants()}>
           Create Course
         </Link>
       </div>
@@ -37,7 +37,7 @@ async function RenderCourses() {
           title="No Courses Found"
           description="You have not created any courses yet"
           buttonText="Create Course"
-          href="/dashboard/courses/create"
+          href="/admin/courses/create"
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
