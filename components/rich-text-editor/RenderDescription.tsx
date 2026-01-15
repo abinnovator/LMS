@@ -28,12 +28,12 @@ export function RenderDescription({
       try {
         content = JSON.parse(description);
       } catch (error) {
-        console.error("Error parsing description:", error);
-        return "";
+        // If parsing fails, it's plain text - return it as is
+        return description;
       }
     }
 
-    // Handle invalid valid content
+    // Handle invalid content
     if (!content || typeof content !== "object" || !(content as any).type) {
       return "";
     }
@@ -60,6 +60,11 @@ export function RenderDescription({
       Subscript,
     ]);
   }, [description]);
+
+  // If output is plain string, render it directly
+  if (typeof output === "string" && !output.includes("<")) {
+    return <div>{output}</div>;
+  }
 
   return (
     <div className="prose dark:prose-invert prose-li:marker:text-primary">

@@ -1,0 +1,29 @@
+import { getSidebarCourseData } from "@/app/data/course/get-sidebar-data";
+import { redirect } from "next/navigation";
+import React from "react";
+
+interface iAppProps {
+  params: Promise<{ slug: string }>;
+}
+
+const page = async ({ params }: iAppProps) => {
+  const { slug } = await params;
+  const course = await getSidebarCourseData(slug);
+  const firstChapter = course?.course.chapter[0];
+  const firstLesson = firstChapter?.lessons[0];
+  if (firstLesson) {
+    redirect(`/dashboard/${slug}/${firstLesson?.id}`);
+  }
+  return (
+    <div className="flex items-center justify-center h-full text-center">
+      <h2 className="text-2xl font-bold mb-2">
+        No lessons currently available
+      </h2>
+      <p className="text-muted-foreground">
+        This course is currently under construction!
+      </p>
+    </div>
+  );
+};
+
+export default page;

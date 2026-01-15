@@ -9,6 +9,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/tiptap-utils";
 
 export function NavMain({
   items,
@@ -19,31 +21,48 @@ export function NavMain({
     icon?: Icon;
   }[];
 }) {
+  const pathname = usePathname();
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Quick Create"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
-            >
-              <Link
-                href="/admin/courses/create"
-                className="flex flex-row gap-3 justify-center items-center"
+        {pathname === "/admin" ? (
+          <SidebarMenu>
+            <SidebarMenuItem className="flex items-center gap-2">
+              <SidebarMenuButton
+                tooltip="Quick Create"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
               >
-                <IconCirclePlusFilled />
-                <span>Quick Create</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+                <Link
+                  href="/admin/courses/create"
+                  className="flex flex-row gap-3 justify-center items-center"
+                >
+                  <IconCirclePlusFilled />
+                  <span>Quick Create</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        ) : null}
+
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton tooltip={item.title}>
-                <Link href={item.url} className="flex flex-row gap-2">
-                  {item.icon && <item.icon />}
+                <Link
+                  href={item.url}
+                  className={cn(
+                    "flex flex-row gap-2 w-full h-full",
+                    pathname === item.url && ""
+                  )}
+                >
+                  {item.icon && (
+                    <item.icon
+                      className={cn(
+                        "h-5 w-5",
+                        pathname === item.url ? "text-primary" : ""
+                      )}
+                    />
+                  )}
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
