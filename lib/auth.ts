@@ -26,7 +26,7 @@ export const auth = betterAuth({
         //   // Send the OTP for sign in
         // } else if (type === "email-verification") {
         await resend.emails.send({
-          from: "React Mastery <support@reactmastery.aaditbhambri.com>",
+          from: "React Mastery <support@hello.aaditbhambri.com>",
           to: [email],
           subject: "Verify your email",
           html: `Your verification code is ${otp}`,
