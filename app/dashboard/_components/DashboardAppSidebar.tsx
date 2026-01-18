@@ -38,11 +38,6 @@ const data = {
       url: "/dashboard",
       icon: IconDashboard,
     },
-    {
-      title: "Courses",
-      url: "/dashboard/courses",
-      icon: IconListDetails,
-    },
   ],
 };
 
