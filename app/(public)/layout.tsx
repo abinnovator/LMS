@@ -1,4 +1,3 @@
-import { ModeToggle } from "@/components/theme-toggle";
 import { ReactNode } from "react";
 import Navbar from "./_components/Navbar";
 

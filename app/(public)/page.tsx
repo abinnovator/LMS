@@ -1,13 +1,11 @@
 "use client";
-import { ModeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { buttonVariants } from "@/components/ui/button";
 
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface featureProps {
   title: string;
@@ -15,32 +13,32 @@ interface featureProps {
   icon: string;
 }
 
-const features: featureProps[] = [
-  {
-    title: "Comprehenive Courses",
-    description:
-      "Access a wide range of carefully created courses designed by industry experts.",
-    icon: "📚",
-  },
-  {
-    title: "Interactive learning",
-    description:
-      "Engage with interactive content, quizes, and assignments to enhance your learning experience.",
-    icon: "🎮",
-  },
-  {
-    title: "Progress Tracking",
-    description:
-      "Moniter your progress through detailed analytic and through personalized dashboards",
-    icon: "📈",
-  },
-  {
-    title: "Community Support",
-    description:
-      "Join a vibrant comunity of learners and instructors to collaborate and share knowledge",
-    icon: "👥",
-  },
-];
+// const features: featureProps[] = [
+//   {
+//     title: "Comprehenive Courses",
+//     description:
+//       "Access a wide range of carefully created courses designed by industry experts.",
+//     icon: "📚",
+//   },
+//   {
+//     title: "Interactive learning",
+//     description:
+//       "Engage with interactive content, quizes, and assignments to enhance your learning experience.",
+//     icon: "🎮",
+//   },
+//   {
+//     title: "Progress Tracking",
+//     description:
+//       "Moniter your progress through detailed analytic and through personalized dashboards",
+//     icon: "📈",
+//   },
+//   {
+//     title: "Community Support",
+//     description:
+//       "Join a vibrant comunity of learners and instructors to collaborate and share knowledge",
+//     icon: "👥",
+//   },
+// ];
 
 export default function Home() {
   const router = useRouter();

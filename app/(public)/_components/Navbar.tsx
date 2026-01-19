@@ -1,8 +1,6 @@
 "use client";
-import { ModeToggle } from "@/components/theme-toggle";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+
+import { buttonVariants } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
