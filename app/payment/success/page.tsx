@@ -25,7 +25,7 @@ const Page = () => {
               the course!
             </p>
             <Link
-              href={"/admin"}
+              href={"/dashboard"}
               className={buttonVariants({
                 variant: "default",
                 className: "w-full mt-5",
