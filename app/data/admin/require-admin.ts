@@ -7,7 +7,7 @@ import { cache } from "react";
 export const RequireAdmin = cache(async () => {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
-    return redirect("/login");
+    return redirect("/sign-in");
   }
   if (session.user.role !== "admin") {
     return redirect("/not-admin");

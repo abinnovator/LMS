@@ -10,7 +10,7 @@ export const RequireUser = cache(async () => {
     headers: await headers(),
   });
   if (!session) {
-    return redirect("/login");
+    return redirect("/sign-in");
   }
   return session.user;
 });
