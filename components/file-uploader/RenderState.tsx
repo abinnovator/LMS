@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { CloudUploadIcon, ImageIcon, Loader2Icon, XIcon } from "lucide-react";
-import React from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { progress } from "motion/react";
@@ -50,18 +49,30 @@ export const SuccessState = ({
   isDeleting,
   handleDelete,
   fileType,
+  fileName,
 }: {
   previewUrl: string;
   isDeleting: boolean;
   handleDelete: () => void;
-  fileType: "image" | "video";
+  fileType: "image" | "video" | "file";
+  fileName?: string;
 }) => {
   return (
     <div className="relative group w-full h-full flex items-center justify-center">
       {fileType === "image" ? (
         <Image src={previewUrl} alt="" fill className="object-contain p-2" />
-      ) : (
+      ) : fileType === "video" ? (
         <video src={previewUrl} className="rounded-md w-full h-full" controls />
+      ) : (
+        <div className="flex flex-col items-center gap-2 text-center">
+          <CloudUploadIcon className="size-10 text-primary" />
+          <p className="text-sm font-medium text-foreground">File uploaded</p>
+          {fileName && (
+            <p className="text-xs text-muted-foreground truncate max-w-[200px]">
+              {fileName}
+            </p>
+          )}
+        </div>
       )}
       <Button
         variant="destructive"

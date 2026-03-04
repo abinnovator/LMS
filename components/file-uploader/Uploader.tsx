@@ -22,12 +22,12 @@ interface uploaderState {
   isDeleting: boolean;
   error: boolean;
   objectUrl?: string;
-  fileType: "image" | "video";
+  fileType: "image" | "video" | "file";
 }
 interface iAppProps {
   value?: string;
   onChange: (value: string) => void;
-  fileTypeAccepted: "image" | "video";
+  fileTypeAccepted: "image" | "video" | "file";
 }
 const Uploader = ({ value, onChange, fileTypeAccepted }: iAppProps) => {
   const fileUrl = useConstructUrl(value || "");
@@ -137,7 +137,7 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: iAppProps) => {
           error: false,
           id: uuidv4(),
           isDeleting: false,
-          fileType: fileTypeAccepted === "image" ? "image" : "video",
+          fileType: fileTypeAccepted === "image" ? "image" : fileTypeAccepted === "video" ? "video" : "file",
         });
         uploadFile(file);
       }
@@ -177,7 +177,7 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: iAppProps) => {
           isDeleting: false,
           objectUrl: undefined,
           key: undefined,
-          fileType: fileTypeAccepted === "image" ? "image" : "video",
+          fileType: fileTypeAccepted === "image" ? "image" : fileTypeAccepted === "video" ? "video" : "file",
           id: null,
           error: false,
         }));
@@ -207,11 +207,12 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: iAppProps) => {
     if (fileState.objectUrl) {
       return (
         <SuccessState
-          previewUrl={fileState.objectUrl}
-          isDeleting={fileState.isDeleting}
-          handleDelete={handleRemoveFile}
-          fileType={fileState.fileType}
-        />
+            previewUrl={fileState.objectUrl}
+            isDeleting={fileState.isDeleting}
+            handleDelete={handleRemoveFile}
+            fileType={fileState.fileType}
+            fileName={fileState.file?.name}
+          />
       );
     }
     return <RenderState isDragActive={false} />;
@@ -226,11 +227,11 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: iAppProps) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept:
-      fileTypeAccepted === "image" ? { "image/*": [] } : { "video/*": [] },
+      fileTypeAccepted === "image" ? { "image/*": [] } : fileTypeAccepted === "video" ? { "video/*": [] } : undefined,
     maxFiles: 1,
     multiple: false,
     maxSize:
-      fileTypeAccepted === "image" ? 5 * 1024 * 1024 : 5000 * 1024 * 1024, // 5 mb calc
+      fileTypeAccepted === "image" ? 5 * 1024 * 1024 : 5000 * 1024 * 1024,
     onDropRejected: rejectedFiles,
     disabled:
       fileState.isDeleting || !!fileState.objectUrl || fileState.uploading,

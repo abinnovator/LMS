@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import {
+  IconBadge,
   IconCamera,
   IconChartBar,
   IconDashboard,
@@ -43,6 +44,11 @@ const data = {
       url: "/admin/courses",
       icon: IconListDetails,
     },
+    {
+      title:"Video-kits",
+      url: "/admin/kits",
+      Icon: IconBadge,
+    }
   ],
   navClouds: [
     {

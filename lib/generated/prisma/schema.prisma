@@ -202,3 +202,30 @@ model LessonProgress {
 
   @@unique([userId, lessonId], map: "userId_lessonId")
 }
+
+model kit {
+  id String @id @default(uuid())
+
+  title       String
+  description String
+  fileKey     String
+
+  price Int
+
+  category        String
+  smallDescrption String
+  slug            String @unique
+
+  status KitStatus @default(Draft)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stripePriceId String @unique
+}
+
+enum KitStatus {
+  Draft
+  Published
+  Archived
+}

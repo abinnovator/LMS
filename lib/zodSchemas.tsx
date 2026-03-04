@@ -3,6 +3,7 @@ import { z } from "zod";
 export const courseLevels = ["Beginner", "Intermediate", "Advanced"] as const;
 
 export const courseStatus = ["Draft", "Published", "Archived"] as const;
+export const kitStatus = ["Draft", "Published", "Archived"] as const;
 export const courseCategories = [
   "Development",
   "Design",
@@ -77,6 +78,41 @@ export const lessonSchema = z.object({
   videoKey: z.string().min(3, { message: "Videokey is required" }).optional(),
 });
 
+export const kitSchema = z.object({
+  title: z
+    .string()
+    .min(3, { message: "Title must be at least 3 characters long" })
+    .max(100, { message: "Title must be at most 100 characters long" }),
+
+  description: z
+    .string()
+    .min(3, { message: "Description must be at least 3 characters long" })
+    .max(10000, { message: "Description must be at most 100 characters long" }),
+
+  fileKey: z.string().min(1, { message: "Thumbnail is required" }),
+
+  downloadKey: z.string().optional(),
+
+  category: z.enum(courseCategories),
+
+  smallDescrption: z
+    .string()
+    .min(3, { message: "Small description must be at least 3 characters long" })
+    .max(500, {
+      message: "Small description must be at most 200 characters long",
+    }),
+
+  slug: z
+    .string()
+    .min(3, { message: "Slug must be at least 3 characters long" })
+    .max(100, { message: "Slug must be at most 50 characters long" }),
+
+  status: z.enum(kitStatus),
+
+})
+
+
 export type CourseSchemaType = z.infer<typeof courseSchema>;
 export type ChapterSchemaType = z.infer<typeof chapterSchema>;
 export type LessonSchemaType = z.infer<typeof lessonSchema>;
+export type kitSchemaType =   z.infer<typeof kitSchema>;

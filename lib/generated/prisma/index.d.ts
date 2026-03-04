@@ -58,6 +58,11 @@ export type Enrollment = $Result.DefaultSelection<Prisma.$EnrollmentPayload>
  * 
  */
 export type LessonProgress = $Result.DefaultSelection<Prisma.$LessonProgressPayload>
+/**
+ * Model kit
+ * 
+ */
+export type kit = $Result.DefaultSelection<Prisma.$kitPayload>
 
 /**
  * Enums
@@ -89,6 +94,15 @@ export const EnrollmentStatus: {
 
 export type EnrollmentStatus = (typeof EnrollmentStatus)[keyof typeof EnrollmentStatus]
 
+
+export const KitStatus: {
+  Draft: 'Draft',
+  Published: 'Published',
+  Archived: 'Archived'
+};
+
+export type KitStatus = (typeof KitStatus)[keyof typeof KitStatus]
+
 }
 
 export type CourseLevel = $Enums.CourseLevel
@@ -102,6 +116,10 @@ export const CourseStatus: typeof $Enums.CourseStatus
 export type EnrollmentStatus = $Enums.EnrollmentStatus
 
 export const EnrollmentStatus: typeof $Enums.EnrollmentStatus
+
+export type KitStatus = $Enums.KitStatus
+
+export const KitStatus: typeof $Enums.KitStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -310,6 +328,16 @@ export class PrismaClient<
     * ```
     */
   get lessonProgress(): Prisma.LessonProgressDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kit`: Exposes CRUD operations for the **kit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Kits
+    * const kits = await prisma.kit.findMany()
+    * ```
+    */
+  get kit(): Prisma.kitDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -368,8 +396,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.16.2
-   * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
+   * Prisma Client JS version: 6.19.2
+   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
     client: string
@@ -382,6 +410,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -758,7 +787,8 @@ export namespace Prisma {
     Chapter: 'Chapter',
     Lesson: 'Lesson',
     Enrollment: 'Enrollment',
-    LessonProgress: 'LessonProgress'
+    LessonProgress: 'LessonProgress',
+    kit: 'kit'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -777,7 +807,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "course" | "chapter" | "lesson" | "enrollment" | "lessonProgress"
+      modelProps: "user" | "session" | "account" | "verification" | "course" | "chapter" | "lesson" | "enrollment" | "lessonProgress" | "kit"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1447,6 +1477,80 @@ export namespace Prisma {
           }
         }
       }
+      kit: {
+        payload: Prisma.$kitPayload<ExtArgs>
+        fields: Prisma.kitFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.kitFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.kitFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>
+          }
+          findFirst: {
+            args: Prisma.kitFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.kitFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>
+          }
+          findMany: {
+            args: Prisma.kitFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>[]
+          }
+          create: {
+            args: Prisma.kitCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>
+          }
+          createMany: {
+            args: Prisma.kitCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.kitCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>[]
+          }
+          delete: {
+            args: Prisma.kitDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>
+          }
+          update: {
+            args: Prisma.kitUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>
+          }
+          deleteMany: {
+            args: Prisma.kitDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.kitUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.kitUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>[]
+          }
+          upsert: {
+            args: Prisma.kitUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kitPayload>
+          }
+          aggregate: {
+            args: Prisma.KitAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKit>
+          }
+          groupBy: {
+            args: Prisma.kitGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KitGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.kitCountArgs<ExtArgs>
+            result: $Utils.Optional<KitCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1552,6 +1656,7 @@ export namespace Prisma {
     lesson?: LessonOmit
     enrollment?: EnrollmentOmit
     lessonProgress?: LessonProgressOmit
+    kit?: kitOmit
   }
 
   /* Types for Logging */
@@ -12152,6 +12257,1126 @@ export namespace Prisma {
 
 
   /**
+   * Model kit
+   */
+
+  export type AggregateKit = {
+    _count: KitCountAggregateOutputType | null
+    _avg: KitAvgAggregateOutputType | null
+    _sum: KitSumAggregateOutputType | null
+    _min: KitMinAggregateOutputType | null
+    _max: KitMaxAggregateOutputType | null
+  }
+
+  export type KitAvgAggregateOutputType = {
+    price: number | null
+  }
+
+  export type KitSumAggregateOutputType = {
+    price: number | null
+  }
+
+  export type KitMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    fileKey: string | null
+    downloadKey: string | null
+    category: string | null
+    smallDescrption: string | null
+    slug: string | null
+    price: number | null
+    status: $Enums.KitStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type KitMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    fileKey: string | null
+    downloadKey: string | null
+    category: string | null
+    smallDescrption: string | null
+    slug: string | null
+    price: number | null
+    status: $Enums.KitStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type KitCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    fileKey: number
+    downloadKey: number
+    category: number
+    smallDescrption: number
+    slug: number
+    price: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type KitAvgAggregateInputType = {
+    price?: true
+  }
+
+  export type KitSumAggregateInputType = {
+    price?: true
+  }
+
+  export type KitMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    fileKey?: true
+    downloadKey?: true
+    category?: true
+    smallDescrption?: true
+    slug?: true
+    price?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type KitMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    fileKey?: true
+    downloadKey?: true
+    category?: true
+    smallDescrption?: true
+    slug?: true
+    price?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type KitCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    fileKey?: true
+    downloadKey?: true
+    category?: true
+    smallDescrption?: true
+    slug?: true
+    price?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type KitAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which kit to aggregate.
+     */
+    where?: kitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kits to fetch.
+     */
+    orderBy?: kitOrderByWithRelationInput | kitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: kitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned kits
+    **/
+    _count?: true | KitCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KitAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KitSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KitMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KitMaxAggregateInputType
+  }
+
+  export type GetKitAggregateType<T extends KitAggregateArgs> = {
+        [P in keyof T & keyof AggregateKit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKit[P]>
+      : GetScalarType<T[P], AggregateKit[P]>
+  }
+
+
+
+
+  export type kitGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: kitWhereInput
+    orderBy?: kitOrderByWithAggregationInput | kitOrderByWithAggregationInput[]
+    by: KitScalarFieldEnum[] | KitScalarFieldEnum
+    having?: kitScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KitCountAggregateInputType | true
+    _avg?: KitAvgAggregateInputType
+    _sum?: KitSumAggregateInputType
+    _min?: KitMinAggregateInputType
+    _max?: KitMaxAggregateInputType
+  }
+
+  export type KitGroupByOutputType = {
+    id: string
+    title: string
+    description: string
+    fileKey: string
+    downloadKey: string | null
+    category: string
+    smallDescrption: string
+    slug: string
+    price: number
+    status: $Enums.KitStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: KitCountAggregateOutputType | null
+    _avg: KitAvgAggregateOutputType | null
+    _sum: KitSumAggregateOutputType | null
+    _min: KitMinAggregateOutputType | null
+    _max: KitMaxAggregateOutputType | null
+  }
+
+  type GetKitGroupByPayload<T extends kitGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KitGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KitGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KitGroupByOutputType[P]>
+            : GetScalarType<T[P], KitGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type kitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    fileKey?: boolean
+    downloadKey?: boolean
+    category?: boolean
+    smallDescrption?: boolean
+    slug?: boolean
+    price?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["kit"]>
+
+  export type kitSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    fileKey?: boolean
+    downloadKey?: boolean
+    category?: boolean
+    smallDescrption?: boolean
+    slug?: boolean
+    price?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["kit"]>
+
+  export type kitSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    fileKey?: boolean
+    downloadKey?: boolean
+    category?: boolean
+    smallDescrption?: boolean
+    slug?: boolean
+    price?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["kit"]>
+
+  export type kitSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    fileKey?: boolean
+    downloadKey?: boolean
+    category?: boolean
+    smallDescrption?: boolean
+    slug?: boolean
+    price?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type kitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "fileKey" | "downloadKey" | "category" | "smallDescrption" | "slug" | "price" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["kit"]>
+
+  export type $kitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "kit"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      description: string
+      fileKey: string
+      downloadKey: string | null
+      category: string
+      smallDescrption: string
+      slug: string
+      price: number
+      status: $Enums.KitStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["kit"]>
+    composites: {}
+  }
+
+  type kitGetPayload<S extends boolean | null | undefined | kitDefaultArgs> = $Result.GetResult<Prisma.$kitPayload, S>
+
+  type kitCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<kitFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KitCountAggregateInputType | true
+    }
+
+  export interface kitDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['kit'], meta: { name: 'kit' } }
+    /**
+     * Find zero or one Kit that matches the filter.
+     * @param {kitFindUniqueArgs} args - Arguments to find a Kit
+     * @example
+     * // Get one Kit
+     * const kit = await prisma.kit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends kitFindUniqueArgs>(args: SelectSubset<T, kitFindUniqueArgs<ExtArgs>>): Prisma__kitClient<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Kit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {kitFindUniqueOrThrowArgs} args - Arguments to find a Kit
+     * @example
+     * // Get one Kit
+     * const kit = await prisma.kit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends kitFindUniqueOrThrowArgs>(args: SelectSubset<T, kitFindUniqueOrThrowArgs<ExtArgs>>): Prisma__kitClient<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Kit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kitFindFirstArgs} args - Arguments to find a Kit
+     * @example
+     * // Get one Kit
+     * const kit = await prisma.kit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends kitFindFirstArgs>(args?: SelectSubset<T, kitFindFirstArgs<ExtArgs>>): Prisma__kitClient<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Kit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kitFindFirstOrThrowArgs} args - Arguments to find a Kit
+     * @example
+     * // Get one Kit
+     * const kit = await prisma.kit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends kitFindFirstOrThrowArgs>(args?: SelectSubset<T, kitFindFirstOrThrowArgs<ExtArgs>>): Prisma__kitClient<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Kits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kitFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Kits
+     * const kits = await prisma.kit.findMany()
+     * 
+     * // Get first 10 Kits
+     * const kits = await prisma.kit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kitWithIdOnly = await prisma.kit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends kitFindManyArgs>(args?: SelectSubset<T, kitFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Kit.
+     * @param {kitCreateArgs} args - Arguments to create a Kit.
+     * @example
+     * // Create one Kit
+     * const Kit = await prisma.kit.create({
+     *   data: {
+     *     // ... data to create a Kit
+     *   }
+     * })
+     * 
+     */
+    create<T extends kitCreateArgs>(args: SelectSubset<T, kitCreateArgs<ExtArgs>>): Prisma__kitClient<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Kits.
+     * @param {kitCreateManyArgs} args - Arguments to create many Kits.
+     * @example
+     * // Create many Kits
+     * const kit = await prisma.kit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends kitCreateManyArgs>(args?: SelectSubset<T, kitCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Kits and returns the data saved in the database.
+     * @param {kitCreateManyAndReturnArgs} args - Arguments to create many Kits.
+     * @example
+     * // Create many Kits
+     * const kit = await prisma.kit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Kits and only return the `id`
+     * const kitWithIdOnly = await prisma.kit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends kitCreateManyAndReturnArgs>(args?: SelectSubset<T, kitCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Kit.
+     * @param {kitDeleteArgs} args - Arguments to delete one Kit.
+     * @example
+     * // Delete one Kit
+     * const Kit = await prisma.kit.delete({
+     *   where: {
+     *     // ... filter to delete one Kit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends kitDeleteArgs>(args: SelectSubset<T, kitDeleteArgs<ExtArgs>>): Prisma__kitClient<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Kit.
+     * @param {kitUpdateArgs} args - Arguments to update one Kit.
+     * @example
+     * // Update one Kit
+     * const kit = await prisma.kit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends kitUpdateArgs>(args: SelectSubset<T, kitUpdateArgs<ExtArgs>>): Prisma__kitClient<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Kits.
+     * @param {kitDeleteManyArgs} args - Arguments to filter Kits to delete.
+     * @example
+     * // Delete a few Kits
+     * const { count } = await prisma.kit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends kitDeleteManyArgs>(args?: SelectSubset<T, kitDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Kits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kitUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Kits
+     * const kit = await prisma.kit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends kitUpdateManyArgs>(args: SelectSubset<T, kitUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Kits and returns the data updated in the database.
+     * @param {kitUpdateManyAndReturnArgs} args - Arguments to update many Kits.
+     * @example
+     * // Update many Kits
+     * const kit = await prisma.kit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Kits and only return the `id`
+     * const kitWithIdOnly = await prisma.kit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends kitUpdateManyAndReturnArgs>(args: SelectSubset<T, kitUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Kit.
+     * @param {kitUpsertArgs} args - Arguments to update or create a Kit.
+     * @example
+     * // Update or create a Kit
+     * const kit = await prisma.kit.upsert({
+     *   create: {
+     *     // ... data to create a Kit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Kit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends kitUpsertArgs>(args: SelectSubset<T, kitUpsertArgs<ExtArgs>>): Prisma__kitClient<$Result.GetResult<Prisma.$kitPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Kits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kitCountArgs} args - Arguments to filter Kits to count.
+     * @example
+     * // Count the number of Kits
+     * const count = await prisma.kit.count({
+     *   where: {
+     *     // ... the filter for the Kits we want to count
+     *   }
+     * })
+    **/
+    count<T extends kitCountArgs>(
+      args?: Subset<T, kitCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KitCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Kit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KitAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KitAggregateArgs>(args: Subset<T, KitAggregateArgs>): Prisma.PrismaPromise<GetKitAggregateType<T>>
+
+    /**
+     * Group by Kit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kitGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends kitGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: kitGroupByArgs['orderBy'] }
+        : { orderBy?: kitGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, kitGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKitGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the kit model
+   */
+  readonly fields: kitFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for kit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__kitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the kit model
+   */
+  interface kitFieldRefs {
+    readonly id: FieldRef<"kit", 'String'>
+    readonly title: FieldRef<"kit", 'String'>
+    readonly description: FieldRef<"kit", 'String'>
+    readonly fileKey: FieldRef<"kit", 'String'>
+    readonly downloadKey: FieldRef<"kit", 'String'>
+    readonly category: FieldRef<"kit", 'String'>
+    readonly smallDescrption: FieldRef<"kit", 'String'>
+    readonly slug: FieldRef<"kit", 'String'>
+    readonly price: FieldRef<"kit", 'Int'>
+    readonly status: FieldRef<"kit", 'KitStatus'>
+    readonly createdAt: FieldRef<"kit", 'DateTime'>
+    readonly updatedAt: FieldRef<"kit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * kit findUnique
+   */
+  export type kitFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * Filter, which kit to fetch.
+     */
+    where: kitWhereUniqueInput
+  }
+
+  /**
+   * kit findUniqueOrThrow
+   */
+  export type kitFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * Filter, which kit to fetch.
+     */
+    where: kitWhereUniqueInput
+  }
+
+  /**
+   * kit findFirst
+   */
+  export type kitFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * Filter, which kit to fetch.
+     */
+    where?: kitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kits to fetch.
+     */
+    orderBy?: kitOrderByWithRelationInput | kitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for kits.
+     */
+    cursor?: kitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of kits.
+     */
+    distinct?: KitScalarFieldEnum | KitScalarFieldEnum[]
+  }
+
+  /**
+   * kit findFirstOrThrow
+   */
+  export type kitFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * Filter, which kit to fetch.
+     */
+    where?: kitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kits to fetch.
+     */
+    orderBy?: kitOrderByWithRelationInput | kitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for kits.
+     */
+    cursor?: kitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of kits.
+     */
+    distinct?: KitScalarFieldEnum | KitScalarFieldEnum[]
+  }
+
+  /**
+   * kit findMany
+   */
+  export type kitFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * Filter, which kits to fetch.
+     */
+    where?: kitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kits to fetch.
+     */
+    orderBy?: kitOrderByWithRelationInput | kitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing kits.
+     */
+    cursor?: kitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kits.
+     */
+    skip?: number
+    distinct?: KitScalarFieldEnum | KitScalarFieldEnum[]
+  }
+
+  /**
+   * kit create
+   */
+  export type kitCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * The data needed to create a kit.
+     */
+    data: XOR<kitCreateInput, kitUncheckedCreateInput>
+  }
+
+  /**
+   * kit createMany
+   */
+  export type kitCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many kits.
+     */
+    data: kitCreateManyInput | kitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * kit createManyAndReturn
+   */
+  export type kitCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * The data used to create many kits.
+     */
+    data: kitCreateManyInput | kitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * kit update
+   */
+  export type kitUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * The data needed to update a kit.
+     */
+    data: XOR<kitUpdateInput, kitUncheckedUpdateInput>
+    /**
+     * Choose, which kit to update.
+     */
+    where: kitWhereUniqueInput
+  }
+
+  /**
+   * kit updateMany
+   */
+  export type kitUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update kits.
+     */
+    data: XOR<kitUpdateManyMutationInput, kitUncheckedUpdateManyInput>
+    /**
+     * Filter which kits to update
+     */
+    where?: kitWhereInput
+    /**
+     * Limit how many kits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * kit updateManyAndReturn
+   */
+  export type kitUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * The data used to update kits.
+     */
+    data: XOR<kitUpdateManyMutationInput, kitUncheckedUpdateManyInput>
+    /**
+     * Filter which kits to update
+     */
+    where?: kitWhereInput
+    /**
+     * Limit how many kits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * kit upsert
+   */
+  export type kitUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * The filter to search for the kit to update in case it exists.
+     */
+    where: kitWhereUniqueInput
+    /**
+     * In case the kit found by the `where` argument doesn't exist, create a new kit with this data.
+     */
+    create: XOR<kitCreateInput, kitUncheckedCreateInput>
+    /**
+     * In case the kit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<kitUpdateInput, kitUncheckedUpdateInput>
+  }
+
+  /**
+   * kit delete
+   */
+  export type kitDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+    /**
+     * Filter which kit to delete.
+     */
+    where: kitWhereUniqueInput
+  }
+
+  /**
+   * kit deleteMany
+   */
+  export type kitDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which kits to delete
+     */
+    where?: kitWhereInput
+    /**
+     * Limit how many kits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * kit without action
+   */
+  export type kitDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kit
+     */
+    select?: kitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kit
+     */
+    omit?: kitOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12302,6 +13527,24 @@ export namespace Prisma {
   export type LessonProgressScalarFieldEnum = (typeof LessonProgressScalarFieldEnum)[keyof typeof LessonProgressScalarFieldEnum]
 
 
+  export const KitScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    fileKey: 'fileKey',
+    downloadKey: 'downloadKey',
+    category: 'category',
+    smallDescrption: 'smallDescrption',
+    slug: 'slug',
+    price: 'price',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type KitScalarFieldEnum = (typeof KitScalarFieldEnum)[keyof typeof KitScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -12419,6 +13662,20 @@ export namespace Prisma {
    * Reference to a field of type 'EnrollmentStatus[]'
    */
   export type ListEnumEnrollmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrollmentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'KitStatus'
+   */
+  export type EnumKitStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KitStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'KitStatus[]'
+   */
+  export type ListEnumKitStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KitStatus[]'>
     
 
 
@@ -13159,6 +14416,95 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"LessonProgress"> | Date | string
     lessonId?: StringWithAggregatesFilter<"LessonProgress"> | string
     userId?: StringWithAggregatesFilter<"LessonProgress"> | string
+  }
+
+  export type kitWhereInput = {
+    AND?: kitWhereInput | kitWhereInput[]
+    OR?: kitWhereInput[]
+    NOT?: kitWhereInput | kitWhereInput[]
+    id?: StringFilter<"kit"> | string
+    title?: StringFilter<"kit"> | string
+    description?: StringFilter<"kit"> | string
+    fileKey?: StringFilter<"kit"> | string
+    downloadKey?: StringNullableFilter<"kit"> | string | null
+    category?: StringFilter<"kit"> | string
+    smallDescrption?: StringFilter<"kit"> | string
+    slug?: StringFilter<"kit"> | string
+    price?: IntFilter<"kit"> | number
+    status?: EnumKitStatusFilter<"kit"> | $Enums.KitStatus
+    createdAt?: DateTimeFilter<"kit"> | Date | string
+    updatedAt?: DateTimeFilter<"kit"> | Date | string
+  }
+
+  export type kitOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    fileKey?: SortOrder
+    downloadKey?: SortOrderInput | SortOrder
+    category?: SortOrder
+    smallDescrption?: SortOrder
+    slug?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type kitWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: kitWhereInput | kitWhereInput[]
+    OR?: kitWhereInput[]
+    NOT?: kitWhereInput | kitWhereInput[]
+    title?: StringFilter<"kit"> | string
+    description?: StringFilter<"kit"> | string
+    fileKey?: StringFilter<"kit"> | string
+    downloadKey?: StringNullableFilter<"kit"> | string | null
+    category?: StringFilter<"kit"> | string
+    smallDescrption?: StringFilter<"kit"> | string
+    price?: IntFilter<"kit"> | number
+    status?: EnumKitStatusFilter<"kit"> | $Enums.KitStatus
+    createdAt?: DateTimeFilter<"kit"> | Date | string
+    updatedAt?: DateTimeFilter<"kit"> | Date | string
+  }, "id" | "slug">
+
+  export type kitOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    fileKey?: SortOrder
+    downloadKey?: SortOrderInput | SortOrder
+    category?: SortOrder
+    smallDescrption?: SortOrder
+    slug?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: kitCountOrderByAggregateInput
+    _avg?: kitAvgOrderByAggregateInput
+    _max?: kitMaxOrderByAggregateInput
+    _min?: kitMinOrderByAggregateInput
+    _sum?: kitSumOrderByAggregateInput
+  }
+
+  export type kitScalarWhereWithAggregatesInput = {
+    AND?: kitScalarWhereWithAggregatesInput | kitScalarWhereWithAggregatesInput[]
+    OR?: kitScalarWhereWithAggregatesInput[]
+    NOT?: kitScalarWhereWithAggregatesInput | kitScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"kit"> | string
+    title?: StringWithAggregatesFilter<"kit"> | string
+    description?: StringWithAggregatesFilter<"kit"> | string
+    fileKey?: StringWithAggregatesFilter<"kit"> | string
+    downloadKey?: StringNullableWithAggregatesFilter<"kit"> | string | null
+    category?: StringWithAggregatesFilter<"kit"> | string
+    smallDescrption?: StringWithAggregatesFilter<"kit"> | string
+    slug?: StringWithAggregatesFilter<"kit"> | string
+    price?: IntWithAggregatesFilter<"kit"> | number
+    status?: EnumKitStatusWithAggregatesFilter<"kit"> | $Enums.KitStatus
+    createdAt?: DateTimeWithAggregatesFilter<"kit"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"kit"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -13958,6 +15304,111 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type kitCreateInput = {
+    id?: string
+    title: string
+    description: string
+    fileKey: string
+    downloadKey?: string | null
+    category: string
+    smallDescrption: string
+    slug: string
+    price?: number
+    status?: $Enums.KitStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type kitUncheckedCreateInput = {
+    id?: string
+    title: string
+    description: string
+    fileKey: string
+    downloadKey?: string | null
+    category: string
+    smallDescrption: string
+    slug: string
+    price?: number
+    status?: $Enums.KitStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type kitUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    downloadKey?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    smallDescrption?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    status?: EnumKitStatusFieldUpdateOperationsInput | $Enums.KitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type kitUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    downloadKey?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    smallDescrption?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    status?: EnumKitStatusFieldUpdateOperationsInput | $Enums.KitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type kitCreateManyInput = {
+    id?: string
+    title: string
+    description: string
+    fileKey: string
+    downloadKey?: string | null
+    category: string
+    smallDescrption: string
+    slug: string
+    price?: number
+    status?: $Enums.KitStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type kitUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    downloadKey?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    smallDescrption?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    status?: EnumKitStatusFieldUpdateOperationsInput | $Enums.KitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type kitUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    downloadKey?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    smallDescrption?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    status?: EnumKitStatusFieldUpdateOperationsInput | $Enums.KitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -14647,6 +16098,76 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type EnumKitStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.KitStatus | EnumKitStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.KitStatus[] | ListEnumKitStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KitStatus[] | ListEnumKitStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumKitStatusFilter<$PrismaModel> | $Enums.KitStatus
+  }
+
+  export type kitCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    fileKey?: SortOrder
+    downloadKey?: SortOrder
+    category?: SortOrder
+    smallDescrption?: SortOrder
+    slug?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type kitAvgOrderByAggregateInput = {
+    price?: SortOrder
+  }
+
+  export type kitMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    fileKey?: SortOrder
+    downloadKey?: SortOrder
+    category?: SortOrder
+    smallDescrption?: SortOrder
+    slug?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type kitMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    fileKey?: SortOrder
+    downloadKey?: SortOrder
+    category?: SortOrder
+    smallDescrption?: SortOrder
+    slug?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type kitSumOrderByAggregateInput = {
+    price?: SortOrder
+  }
+
+  export type EnumKitStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KitStatus | EnumKitStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.KitStatus[] | ListEnumKitStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KitStatus[] | ListEnumKitStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumKitStatusWithAggregatesFilter<$PrismaModel> | $Enums.KitStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKitStatusFilter<$PrismaModel>
+    _max?: NestedEnumKitStatusFilter<$PrismaModel>
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -15195,6 +16716,10 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLessonProgressInput, UserUpdateWithoutLessonProgressInput>, UserUncheckedUpdateWithoutLessonProgressInput>
   }
 
+  export type EnumKitStatusFieldUpdateOperationsInput = {
+    set?: $Enums.KitStatus
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15431,6 +16956,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEnrollmentStatusFilter<$PrismaModel>
     _max?: NestedEnumEnrollmentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumKitStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.KitStatus | EnumKitStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.KitStatus[] | ListEnumKitStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KitStatus[] | ListEnumKitStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumKitStatusFilter<$PrismaModel> | $Enums.KitStatus
+  }
+
+  export type NestedEnumKitStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KitStatus | EnumKitStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.KitStatus[] | ListEnumKitStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KitStatus[] | ListEnumKitStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumKitStatusWithAggregatesFilter<$PrismaModel> | $Enums.KitStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKitStatusFilter<$PrismaModel>
+    _max?: NestedEnumKitStatusFilter<$PrismaModel>
   }
 
   export type SessionCreateWithoutUserInput = {

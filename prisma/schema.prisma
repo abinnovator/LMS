@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../lib/generated/prisma"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
@@ -16,20 +16,19 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  courses       Course[]
-  enrollment   Enrollment[]
-  stripeCustomerId String? @unique
-  lessonProgress LessonProgress[]
-
+  id               String           @id
+  name             String
+  email            String
+  emailVerified    Boolean          @default(false)
+  image            String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @default(now()) @updatedAt
+  sessions         Session[]
+  accounts         Account[]
+  courses          Course[]
+  enrollment       Enrollment[]
+  stripeCustomerId String?          @unique
+  lessonProgress   LessonProgress[]
 
   role       String?
   banned     Boolean?  @default(false)
@@ -54,8 +53,8 @@ model Session {
   impersonatedBy String?
 
   @@unique([token])
-  @@map("session")
   @@index([userId])
+  @@map("session")
 }
 
 model Account {
@@ -74,8 +73,8 @@ model Account {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
-  @@map("account")
   @@index([userId])
+  @@map("account")
 }
 
 model Verification {
@@ -86,8 +85,8 @@ model Verification {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
 
-  @@map("verification")
   @@index([identifier])
+  @@map("verification")
 }
 
 model Course {
@@ -113,9 +112,9 @@ model Course {
   User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  chapter Chapter[]
-  enrollment Enrollment[]
-  stripePriceId String @unique
+  chapter       Chapter[]
+  enrollment    Enrollment[]
+  stripePriceId String       @unique
 }
 
 enum CourseLevel {
@@ -131,58 +130,54 @@ enum CourseStatus {
 }
 
 model Chapter {
-  id String @id @default(uuid()) 
+  id String @id @default(uuid())
 
-  title String
+  title    String
   position Int
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Course Course @relation(fields: [courseId], references: [id])
+  Course   Course @relation(fields: [courseId], references: [id])
   courseId String
 
   lessons Lesson[]
-
 }
-
 
 model Lesson {
   id String @id @default(uuid())
 
-  title String
-  description String?
+  title        String
+  description  String?
   thumbnailKey String?
-  videoKey String?
-  position Int
+  videoKey     String?
+  position     Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Chapter Chapter @relation(fields: [chapterId], references: [id])
+  Chapter   Chapter @relation(fields: [chapterId], references: [id])
   chapterId String
 
   lessonProgress LessonProgress[]
 }
 
-
 model Enrollment {
   id String @id @default(uuid())
-  
 
   amount Int
   status EnrollmentStatus @default(Pending)
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  Course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String
 
-  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  @@unique([userId,courseId], map: "userId_courseId")
+  @@unique([userId, courseId], map: "userId_courseId")
 }
 
 enum EnrollmentStatus {
@@ -199,11 +194,37 @@ model LessonProgress {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  Lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   lessonId String
 
-  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  @@unique([userId,lessonId], map: "userId_lessonId")
+  @@unique([userId, lessonId], map: "userId_lessonId")
+}
+
+model kit {
+  id String @id @default(uuid())
+
+  title       String
+  description String
+  fileKey     String
+
+  downloadKey String?
+
+  category        String
+  smallDescrption String
+  slug            String @unique
+
+  price  Int       @default(0)
+  status KitStatus @default(Draft)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum KitStatus {
+  Draft
+  Published
+  Archived
 }
