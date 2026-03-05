@@ -266,7 +266,7 @@ const CoursePage = async ({ params }: { params: Params }) => {
               {/* <Button className="w-full">Enroll now</Button> */}
               {isEnrolled ? (
                 <Link
-                  href="/admin"
+                  href="/dashboard"
                   className={buttonVariants({
                     variant: "default",
                     className: "w-full",
