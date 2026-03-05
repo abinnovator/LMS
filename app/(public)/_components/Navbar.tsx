@@ -19,6 +19,7 @@ const Navbar = () => {
       <nav className="flex flex-row gap-4 justify-center  text-center items-center">
         <Link href="/">Home</Link>
         <Link href="/courses">Courses</Link>
+        <Link href="/kits">Kits</Link>
         {data?.user.role === "admin" && <Link href="/admin">Dashboard</Link>}
       </nav>
       <div className="flex flex-row gap-4">
