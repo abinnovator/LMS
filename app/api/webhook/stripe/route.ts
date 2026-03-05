@@ -17,36 +17,46 @@ export async function POST(req: Request) {
       env.STRIPE_WEBHOOK_SECRET
     );
   } catch (error) {
+    console.error("Webhook signature verification failed:", error);
     return new Response("Webhook Error", { status: 400 });
   }
 
-  const session = event.data.object as Stripe.Checkout.Session;
-  if (event.type === "checkout.session.completed") {
-    const courseId = session.metadata?.courseId;
-    const customerId = session.customer as string;
-    if (!courseId) {
-      throw new Error("Course not found");
-    }
-    const user = await prisma.user.findUnique({
-      where: {
-        stripeCustomerId: customerId,
-      },
-    });
-    if (!user) {
-      throw new Error("User not found");
-    }
+  try {
+    const session = event.data.object as Stripe.Checkout.Session;
+    if (
+      event.type === "checkout.session.completed" &&
+      session.payment_status === "paid"
+    ) {
+      const courseId = session.metadata?.courseId;
+      const enrollmentId = session.metadata?.enrollmentId;
+      const customerId = session.customer as string;
 
-    await prisma.enrollment.update({
-      where: {
-        id: session.metadata?.enrollmentId as string,
-      },
-      data: {
-        userId: user.id,
-        courseId: courseId,
-        amount: session.amount_total as number,
-        status: "Active",
-      },
-    });
+      if (!courseId || !enrollmentId) {
+        console.error("Missing metadata:", { courseId, enrollmentId });
+        return new Response("Missing metadata", { status: 400 });
+      }
+
+      const user = await prisma.user.findUnique({
+        where: { stripeCustomerId: customerId },
+      });
+      if (!user) {
+        console.error("User not found for stripeCustomerId:", customerId);
+        return new Response("User not found", { status: 400 });
+      }
+
+      await prisma.enrollment.update({
+        where: { id: enrollmentId },
+        data: {
+          userId: user.id,
+          courseId: courseId,
+          amount: session.amount_total as number,
+          status: "Active",
+        },
+      });
+    }
+  } catch (err) {
+    console.error("Webhook handler error:", err);
+    return new Response("Internal Server Error", { status: 500 });
   }
 
   return new Response(null, { status: 200 });
