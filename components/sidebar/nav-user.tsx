@@ -102,13 +102,13 @@ export function NavUser({ user }: NavUserProps) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/admin">
+                <Link href="/dashboard">
                   <IconDashboard />
                   Dashboard
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/admin/courses">
+                <Link href="/dashboard/courses">
                   <Tv2 />
                   Courses
                 </Link>
